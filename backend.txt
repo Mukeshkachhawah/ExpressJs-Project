@@ -1,0 +1,64 @@
+what is server ?
+what is mongoose and mongodb ?
+diffrence between server or system?
+what is live server extension?
+what is orm and odm ?
+
+
+create a folder
+open in vs code terminal 
+npm init
+write all requrment meta data
+npm install -g npm@10.8.1 to update
+npm install express morgan cors dotenv mongoose nodemon jsonwebtoken bcryptjs colors  
+when install all package then create folders in vs code with same parent folder
+config , controller , middlewares, models , routes , util
+create server.js nothin in a folder outer the explorer
+
+setup server::
+    const express = require("express");
+    const express = require("express");
+    //express is a variable
+    //express =  require is header file  .. that is old version
+    //require is a function that is used to import the header file
+    const dotenv = require("dotenv");
+    const cors = require("cors");
+    const morgan = require("morgan");   
+
+
+    const app = express();
+    //express li property ko hmne app mai transfer kr diya that mean asign kar diya 
+    //express jo hai vo server handling kar skti hai 
+    //express ko server ke lia use krna hai 
+    //express is a function that is used to create a server
+    //jisse hum http protocol ka use kar payenge jisme http methods ka access kar skeneg 
+        eg. get ,post(Data send by other to me) ,put ,patch ,delete
+
+********************************we  can change on runtime data by server*********************************
+
+note: packege json me jo start key he usme hmne value node server.js chalte he tab vo run time me change kra huaa data kabhi change nhi uske lia usko terminate krna pdega
+         
+    packege json me jo start key he usme hmne value node server.js chalte he tab vo run time me change krna he to  uske lia usko lia 
+    "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+    
+   },
+   open terminal and type : npm run server
+
+************************8 store information port name***************************88
+create .env file in explorer
+then server.js open and type uper to port 
+dotenv.config();
+const PORT = process.env.PORT || 8000 || 6000;
+
+
+MBC architecture
+
+
+NOte :: HTTPS is responsible to run a server .
+
+
+note:  System me kisi bhi file ka path vo ek khud me ek api link hota he.
+jisse hm browser pe use krte hai.
+ex . index.js path is like link 
