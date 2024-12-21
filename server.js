@@ -1,90 +1,64 @@
 const express = require("express");
-//express is a variable
-//express =  require is header file  .. that is old version
-//require is a function that is used to import the header file
-const dotenv = require("dotenv");
 const cors = require("cors");
-const morgan = require("morgan");
-const rootroute = require("./routes/rootroute");
-const productroute = require("./routes/productroute");
-const { connect } = require("mongoose");
+const dotenv = require("dotenv");
+const { notFound, errorHandler } = require("./middlewares/errorhandling");
 const connectDB = require("./config/db");
+const cloudinary = require("cloudinary").v2;
+const fileUpload = require("express-fileupload");
+const authRouter = require("./routes/auth/auth-routes");
+const adminOrderRouter = require("./routes/admin/order-routes");
 
-const app = express();
-//express jo hai vo server handling kar skti hai
-//express ko server ke lia use krna hai
-//express is a function that is used to create a server
-//jisse hum http protocol ka use kar payenge jisme http methods ka access kar skeneg
-// eg. get ,post ,put ,patch ,delete
-// app is a variablex
+const shopProductsRouter = require("./routes/shop/products-routes");
+const shopCartRouter = require("./routes/shop/cart-routes");
+const shopAddressRouter = require("./routes/shop/address-routes");
+const shopOrderRouter = require("./routes/shop/order-routes");
+const shopSearchRouter = require("./routes/shop/search-routes");
+const shopReviewRouter = require("./routes/shop/review-routes");
+
+const commonFeatureRouter = require("./routes/common/feature-routes");
+const adminProductsRouter = require("./routes/admin/product-route");
 
 dotenv.config();
+
 connectDB();
 
-const PORT = process.env.PORT || 8000 || 6000;
+const app = express();
 
-app.use("/", rootroute);
-app.use("/products", productroute);
-//content ko dikhana kya he ye vo kam krega
-//root(request) , controller(response)
-//session storage(session) and local storage(cockie)
+const PORT = process.env.PORT || 8000;
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Cache-Control",
+      "Expires",
+      "Pragma",
+    ],
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
+
+app.use("/api/auth", authRouter);
+app.use("/api/admin/products", adminProductsRouter);
+app.use("/api/admin/orders", adminOrderRouter);
+
+app.use("/api/shop/products", shopProductsRouter);
+app.use("/api/shop/cart", shopCartRouter);
+app.use("/api/shop/address", shopAddressRouter);
+app.use("/api/shop/order", shopOrderRouter);
+app.use("/api/shop/search", shopSearchRouter);
+app.use("/api/shop/review", shopReviewRouter);
+
+app.use("/api/common/feature", commonFeatureRouter);
+app.use(notFound);
+app.use(errorHandler);
+
 app.listen(PORT, () => {
-  console.log(`server running on ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
-
-
-// // Importing necessary modules
-// const express = require("express");
-// // Express is a variable that holds the reference to the Express module, which is used to create the server.
-
-// const dotenv = require("dotenv");
-// // Dotenv is a module that loads environment variables from a .env file into process.env.
-
-// // const cors = require("cors");
-// // CORS is a middleware for enabling Cross-Origin Resource Sharing.
-
-// // const morgan = require("morgan");
-// // Morgan is a middleware for logging HTTP requests.
-
-// const rootroute = require("./routes/rootroute");
-// // Importing the root route module. This typically contains the routing logic for the root endpoint.
-
-// // const productroute = require("./routes/productroute");
-// // Importing the product route module. This typically contains the routing logic for product-related endpoints.
-
-// // const { connect } = require("mongoose");
-// // Destructuring the 'connect' function from the mongoose module. Mongoose is an ODM (Object Data Modeling) library for MongoDB.
-
-// // const connectDB = require("./config/db");
-// // Importing a custom module that handles the database connection logic.
-
-// const app = express();
-// // Initializing the Express application. 'app' is an instance of the Express application.
-
-// // Middleware explanation comments
-// // Express is used to handle server functionality and HTTP methods like GET, POST, PUT, PATCH, DELETE.
-
-// // dotenv.config();
-// // Loading environment variables from a .env file into process.env.
-
-// // connectDB();
-// // Connecting to the database using the custom connectDB function from ./config/db.
-
-// const PORT = process.env.PORT || 8000 || 6000;
-// // Defining the port number on which the server will listen. It first tries to use the value from the .env file, then defaults to 8000, and finally to 6000 if the others are not defined.
-
-// app.use("/", rootroute);
-// // Using the root route for handling requests to the root endpoint ("/").
-
-// // app.use("/products", productroute);
-// // Using the product route for handling requests to the "/products" endpoint.
-
-// // Additional comments
-// // The root route and product route handle the content display (response) for their respective endpoints.
-// // The root route ("/") handles the default requests, while the product route ("/products") manages product-related requests.
-
-// app.listen(PORT, () => {
-//   console.log(`server running on ${PORT}`);
-// });
-// // Starting the server and making it listen on the defined port. Logs the running port to the console.

@@ -6,19 +6,24 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
-    
   },
   "author": "Mukesh kachhawah",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-fileupload": "^1.5.1",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.2"
+    "nodemon": "^3.1.2",
+    "paypal-rest-sdk": "^1.8.1"
   }
 }
